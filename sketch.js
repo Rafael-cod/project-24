@@ -4,7 +4,7 @@ const Bodies = Matter.Bodies;
 const Body = Matter.Body;
 
 var paper, ground;
-var boxSide1, boxSide2, boxBott;
+var boxSideLeft, boxSideRight, boxBott;
 
 function setup() {
 	createCanvas(800, 700);
@@ -13,17 +13,12 @@ function setup() {
 	world = engine.world;
 
 	//Create the Bodies Here.
-	var ground = createSprite(400,680,800,15);
-	ground.shapeColor = color("yellow");
+	ground = new Ground(400,680,800,15);
+	paper = new Paper(100,660);
 
-	var boxBott = createSprite(600,660,150,15);
-	boxBott.shapeColor = color(255);
-	var boxSide1 = createSprite(525,625,15,75);
-	boxSide1.shapeColor = color(255);
-	var boxSide2 = createSprite(675,625,15,75);
-	boxSide2.shapeColor = color(255);
-
-	var paper = new Paper(100,660);
+	boxBott = new Box(600,660,150,15);
+	boxSideLeft = new Box(525,625,15,75);
+	boxSideRight = new Box(675,625,15,75);
 
 	Engine.run(engine);
   
@@ -33,15 +28,20 @@ function setup() {
 function draw() {
   rectMode(CENTER);
   background(0);
-  Engine.update(engine);
+  //Engine.update(engine);
 
   drawSprites();
  
+  ground.display();
+  paper.display();
+  boxBott.display();
+  boxSideLeft.display();
+  boxSideRight.display();
 }
 
 function keyPressed(){
 	if(keyCode === UP_ARROW){
-		Matter.body.applyForce(Paper.body.position,{x:85,y:-85})
+		Matter.Body.applyForce(paper.body,paper.body.position,{x:85,y:-85});
 	}
 }
 
